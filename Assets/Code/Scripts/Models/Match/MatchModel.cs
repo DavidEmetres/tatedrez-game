@@ -2,8 +2,19 @@ using UnityEngine;
 
 public class MatchModel : IMatchAdvancer
 {
-	int _totalTurns = 0;
-	Team _currentPlayingTeam = Team.None;
+	private MatchState _state = MatchState.Beginning;
+	private int _totalTurns = 0;
+	private Team _currentPlayingTeam = Team.None;
+
+	public void BeginMatch()
+	{
+		_state = MatchState.InProgress;
+	}
+
+	public void EndMatch()
+	{
+		_state = MatchState.End;
+	}
 
 	public void NextTurn()
 	{

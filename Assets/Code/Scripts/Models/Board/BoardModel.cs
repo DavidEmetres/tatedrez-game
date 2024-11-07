@@ -8,12 +8,12 @@ public class BoardModel : IBoardModifier, IBoardObserver
 
 	private CellModel[][] _cells;
 
-	public BoardModel(BoardConfig config)
+	public BoardModel()
 	{
-		_cells = new CellModel[config.RowCount][];
-		for (int row = 0; row < config.RowCount; row++)
+		_cells = new CellModel[BoardConfig.Size.x][];
+		for (int row = 0; row < BoardConfig.Size.x; row++)
 		{
-			_cells[row] = new CellModel[config.ColumnCount];
+			_cells[row] = new CellModel[BoardConfig.Size.x];
 		}
 	}
 
