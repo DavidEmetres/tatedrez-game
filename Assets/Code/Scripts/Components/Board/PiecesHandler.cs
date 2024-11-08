@@ -6,14 +6,14 @@ public class PiecesHandler
 {
 	private class BoardPieceInfo
 	{
-		public GameObject PieceGO;
+		public PieceViewModel PieceVM;
 		public int Row;
 		public int Column;
 		public Team Team;
 
-		public BoardPieceInfo(GameObject pieceGO, int row, int column, Team team)
+		public BoardPieceInfo(PieceViewModel pieceVM, int row, int column, Team team)
 		{
-			PieceGO = pieceGO;
+			PieceVM = pieceVM;
 			Row = row;
 			Column = column;
 			Team = team;
@@ -38,10 +38,13 @@ public class PiecesHandler
 
 	public void InstantiatePiece(PieceType type, Team team, int row, int column)
 	{
-		GameObject pieceGO = _pieceFactory.CreatePieceGameObjectOfType(type, team);
-		pieceGO.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
+		Team cellOwnership = _boardObserver.GetCellOwnership(row, column);
+		if (cellOwnership != Team.None) return;
+		
+		PieceViewModel pieceVM = _pieceFactory.CreatePieceGameObjectOfType(type, team);
+		pieceVM.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
 
-		BoardPieceInfo boardPiece = new BoardPieceInfo(pieceGO, row, column, team);
+		BoardPieceInfo boardPiece = new BoardPieceInfo(pieceVM, row, column, team);
 		if (_piecesInBoard.TryGetValue(team, out IList<BoardPieceInfo> pieces))
 		{
 			pieces.Add(boardPiece);
@@ -81,9 +84,12 @@ public class PiecesHandler
 	{
 		Assert.IsNotNull(_selectedPiece, "No piece selected!");
 
+		_boardModifier.SetCellOwnership(_selectedPiece.Row, _selectedPiece.Column, Team.None);
+
 		_selectedPiece.Row = row;
 		_selectedPiece.Column = column;
-		_selectedPiece.PieceGO.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
+		_selectedPiece.PieceVM.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
+
 		_boardModifier.SetCellOwnership(row, column, _selectedPiece.Team);
 
 		_selectedPiece = null;

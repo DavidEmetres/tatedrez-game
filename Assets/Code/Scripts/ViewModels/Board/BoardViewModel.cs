@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(BoardTouchListener))]
-public class BoardViewModel : MonoBehaviour
+public class BoardViewModel : ViewModel
 {
 	[SerializeField]
 	private BoxCollider2D _boardBounds;
@@ -12,8 +12,10 @@ public class BoardViewModel : MonoBehaviour
 	private BoardTouchListener _touchListener;
 	private PiecesHandler _piecesHandler;
 	
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
+		
 		Assert.IsNotNull(_boardBounds, "Missing Board bounds reference!");
 		
 		_touchListener = GetComponent<BoardTouchListener>();

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class MatchViewModel : MonoBehaviour
+public class MatchViewModel : ViewModel
 {
 	[SerializeField]
 	private MatchConfig _matchConfig;
@@ -10,8 +10,10 @@ public class MatchViewModel : MonoBehaviour
 	private MatchModel _matchModel;
 	private BoardModel _boardModel;
 	
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
+		
 		Assert.IsNotNull(_matchConfig, "Match config not referenced!");
 		Assert.IsNotNull(_matchConfig.BoardConfig, "Board config not referenced on MatchConfig!");
 		Assert.IsNotNull(_matchConfig.PieceFactory, "Piece factory not referenced on MatchConfig!");
@@ -41,6 +43,8 @@ public class MatchViewModel : MonoBehaviour
 
 	private void OnCellOwnershipChanged(int row, int column, Team newTeam)
 	{
+		if (newTeam == Team.None) return;
+		
 		if (_matchModel.State == MatchState.Beginning)
 		{
 			_matchModel.NextTurn();
@@ -54,6 +58,7 @@ public class MatchViewModel : MonoBehaviour
 		else if (_matchModel.State == MatchState.InProgress)
 		{
 			//TODO: verify win condition & finish game;
+			_matchModel.NextTurn();
 		}
 	}
 }

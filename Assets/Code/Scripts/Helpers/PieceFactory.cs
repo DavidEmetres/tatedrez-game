@@ -22,7 +22,7 @@ public class PieceFactory : ScriptableObject
 
 	private IDictionary<PieceType, PieceEntry> _pieceEntriesMap = new Dictionary<PieceType, PieceEntry>();
 	
-	public GameObject CreatePieceGameObjectOfType(PieceType type, Team team)
+	public PieceViewModel CreatePieceGameObjectOfType(PieceType type, Team team)
 	{
 		PieceEntry entry = _pieceEntriesMap[type];
 		Assert.IsNotNull(entry, $"Factory does not contain an entry for type {type}!");
@@ -30,11 +30,13 @@ public class PieceFactory : ScriptableObject
 		GameObject pieceGO = GameObject.Instantiate(_piecePrefab);
 		Assert.IsNotNull(pieceGO, "Error instantiating Piece prefab!");
 
-		PieceModel pieceModel = new PieceModel(team);
+		PieceViewModel pieceVM = pieceGO.GetComponent<PieceViewModel>();
+		Assert.IsNotNull(pieceVM, "Piece prefab does not have a view model attached!");
 
-		// get viewmodel & inject model;
+		PieceModel pieceModel = new PieceModel(team, type);
+		pieceVM.Initialize(pieceModel);
 
-		return pieceGO;
+		return pieceVM;
 	}
 	
 	private void OnValidate()

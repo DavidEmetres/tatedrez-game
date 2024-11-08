@@ -55,6 +55,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2550460010817822914}
   - component: {fileID: 997517964997114495}
+  - component: {fileID: 4501829930306960009}
+  - component: {fileID: 7531225946486683726}
+  - component: {fileID: 7832489490300065308}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -129,3 +132,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4501829930306960009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063786929756839293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838d80d56d26a47a2a7d8774a53825d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color:
+    _bindedGameObject: {fileID: 6063786929756839293}
+    _bindedViewModelType: TeamToColorConverter
+    _bindedPropertyName: Output
+  Sprite:
+    _bindedGameObject: {fileID: 6063786929756839293}
+    _bindedViewModelType: PieceTypeToSpriteConverter
+    _bindedPropertyName: Output
+--- !u!114 &7531225946486683726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063786929756839293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3a25a39f8f3b4e2c8080d388e0d8bfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enum:
+    _bindedGameObject: {fileID: 2320513608837754522}
+    _bindedViewModelType: PieceViewModel
+    _bindedPropertyName: PieceTeam
+  _enumOutputMap:
+  - EnumValue: 1
+    OutputValue: {r: 1, g: 1, b: 1, a: 1}
+  - EnumValue: 2
+    OutputValue: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &7832489490300065308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6063786929756839293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bc4fdfc07de4bba866453ca7884aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enum:
+    _bindedGameObject: {fileID: 2320513608837754522}
+    _bindedViewModelType: PieceViewModel
+    _bindedPropertyName: Type
+  _enumOutputMap:
+  - EnumValue: 0
+    OutputValue: {fileID: 21300000, guid: 838dd21745a1048fd919e086f3df17da, type: 3}
+  - EnumValue: 1
+    OutputValue: {fileID: 21300000, guid: ad1d43d597a014f8091c718ed51373e4, type: 3}
+  - EnumValue: 2
+    OutputValue: {fileID: 21300000, guid: a8dcc18b48dbf467f9e2065585f8558b, type: 3}
