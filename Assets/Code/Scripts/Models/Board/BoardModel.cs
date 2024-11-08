@@ -14,6 +14,10 @@ public class BoardModel : IBoardModifier, IBoardObserver
 		for (int row = 0; row < BoardConfig.Size.x; row++)
 		{
 			_cells[row] = new CellModel[BoardConfig.Size.x];
+			for (int column = 0; column < BoardConfig.Size.y; column++)
+			{
+				_cells[row][column] = new CellModel();
+			}
 		}
 	}
 

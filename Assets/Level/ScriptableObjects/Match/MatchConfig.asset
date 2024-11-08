@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3407589099be1445ca9ce6ba4ba06d47, type: 3}
   m_Name: MatchConfig
   m_EditorClassIdentifier: 
-  _piecesToUse: 000000000100000002000000
+  _boardConfig: {fileID: 11400000, guid: a62951a2723404b06b9d767c4b484818, type: 2}
+  _pieceFactory: {fileID: 11400000, guid: e0d83f27c410a4ebabbfde018f02c783, type: 2}
+  _initialPieces: 000000000100000002000000

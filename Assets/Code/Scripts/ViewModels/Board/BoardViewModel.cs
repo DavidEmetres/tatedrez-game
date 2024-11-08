@@ -1,15 +1,21 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(BoardTouchListener))]
 public class BoardViewModel : MonoBehaviour
 {
-	private IBoardModifier _boardModifier;
-	private IBoardObserver _boardObserver;
+	[SerializeField]
+	private BoxCollider2D _boardBounds;
+	
 	private IMatchStateObserver _matchObserver;
+	private MatchConfig _matchConfig;
 	private BoardTouchListener _touchListener;
+	private PiecesHandler _piecesHandler;
 	
 	private void Awake()
 	{
+		Assert.IsNotNull(_boardBounds, "Missing Board bounds reference!");
+		
 		_touchListener = GetComponent<BoardTouchListener>();
 	}
 
@@ -23,18 +29,25 @@ public class BoardViewModel : MonoBehaviour
 		_touchListener.CellTouched -= OnCellTouched;
 	}
 
-	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchStateObserver matchObserver)
+	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchStateObserver matchObserver, MatchConfig matchConfig)
 	{
-		_boardModifier = boardModifier;
-		_boardObserver = boardObserver;
 		_matchObserver = matchObserver;
+		_matchConfig = matchConfig;
+
+		_piecesHandler = new PiecesHandler(boardModifier, boardObserver, _boardBounds, _matchConfig.PieceFactory);
 	}
 
 	private void OnCellTouched(int row, int column)
 	{
-		if (_matchObserver.State != MatchState.InProgress)
+		if (_matchObserver.State == MatchState.Beginning)
 		{
-			return;
+			int piecesPlaced = _piecesHandler.GetBoardPiecesCount(_matchObserver.PlayingTeam);
+			PieceType type = _matchConfig.InitialPieces[piecesPlaced];
+			_piecesHandler.InstantiatePiece(type, _matchObserver.PlayingTeam, row, column);
+		}
+		else if (_matchObserver.State == MatchState.InProgress)
+		{
+			_piecesHandler.CellSelected(row, column, _matchObserver.PlayingTeam);
 		}
 	}
 }

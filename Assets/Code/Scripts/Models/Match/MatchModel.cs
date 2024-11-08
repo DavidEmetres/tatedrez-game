@@ -4,6 +4,7 @@ public class MatchModel : IMatchAdvancer, IMatchStateObserver
 {
 	public MatchState State => _state;
 	public Team PlayingTeam => _playingTeam;
+	public int TurnsPlayed => _totalTurns;
 	
 	private MatchState _state = MatchState.Beginning;
 	private int _totalTurns = 0;
