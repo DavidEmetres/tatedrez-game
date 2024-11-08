@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class MatchModel : IMatchAdvancer
+public class MatchModel : IMatchAdvancer, IMatchStateObserver
 {
+	public MatchState State => _state;
+	public Team PlayingTeam => _playingTeam;
+	
 	private MatchState _state = MatchState.Beginning;
 	private int _totalTurns = 0;
-	private Team _currentPlayingTeam = Team.None;
+	private Team _playingTeam = Team.None;
 
 	public void BeginMatch()
 	{
@@ -18,13 +21,13 @@ public class MatchModel : IMatchAdvancer
 
 	public void NextTurn()
 	{
-		if (_currentPlayingTeam == Team.None)
+		if (_playingTeam == Team.None)
 		{
-			_currentPlayingTeam = (Team)Random.Range(1, 2);
+			_playingTeam = (Team)Random.Range(1, 2);
 			return;
 		}
 
-		_currentPlayingTeam = _currentPlayingTeam == Team.Black ? Team.White : Team.Black;
+		_playingTeam = _playingTeam == Team.Black ? Team.White : Team.Black;
 		_totalTurns++;
 	}
 }
