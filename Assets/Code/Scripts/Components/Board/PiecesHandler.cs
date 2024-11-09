@@ -23,13 +23,16 @@ public class PiecesHandler
 	private IDictionary<Team, IList<BoardPieceInfo>> _piecesInBoard;
 	private BoardPieceInfo _selectedPiece;
 	private IReadOnlyList<Vector2Int> _pieceMovements;
+	private CellHighlightPool _cellHightlightPool;
+	private IList<GameObject> _cellsHighlighted = new List<GameObject>();
 
-	public PiecesHandler(IBoardModifier boardModifier, IBoardObserver boardObserver, BoxCollider2D boardBounds, PieceFactory pieceFactory)
+	public PiecesHandler(IBoardModifier boardModifier, IBoardObserver boardObserver, BoxCollider2D boardBounds, PieceFactory pieceFactory, CellHighlightPool cellHighlightPool)
 	{
 		_boardModifier = boardModifier;
 		_boardObserver = boardObserver;
 		_boardBounds = boardBounds;
 		_pieceFactory = pieceFactory;
+		_cellHightlightPool = cellHighlightPool;
 		_piecesInBoard = new Dictionary<Team, IList<BoardPieceInfo>>();
 	}
 
@@ -92,11 +95,17 @@ public class PiecesHandler
 
 		_boardModifier.SetCellOwnership(row, column, _selectedPiece.PieceModel.Team);
 
+		RemoveCurrentHightlight();
 		_selectedPiece = null;
 	}
 
 	private void SelectPiece(int row, int column, Team team)
 	{
+		if (_selectedPiece != null)
+		{
+			RemoveCurrentHightlight();
+		}
+		
 		// TODO: Improve piece search;
 		IList<BoardPieceInfo> pieces = _piecesInBoard[team];
 		for (int i = 0; i < pieces.Count; i++)
@@ -105,8 +114,33 @@ public class PiecesHandler
 			if (piece.PieceModel.Row == row && piece.PieceModel.Column == column)
 			{
 				_selectedPiece = piece;
-				return;
+				break;
 			}
 		}
+
+		if (_selectedPiece != null)
+		{
+			IEnumerator<Vector2Int> movementsEnumerator = _selectedPiece.PieceModel.GetPotentialMovements().GetEnumerator();
+			while (movementsEnumerator.MoveNext())
+			{
+				Vector2Int movement = movementsEnumerator.Current;
+				if (movement.x >= 0 && movement.x < BoardConfig.Size.x && movement.y >= 0 && movement.y < BoardConfig.Size.y)
+				{
+					GameObject highlight = _cellHightlightPool.GetHighlight();
+					highlight.transform.position = BoardUtils.CellToWorldPosition(movement.x, movement.y, _boardBounds.size, _boardBounds.bounds.min);
+					_cellsHighlighted.Add(highlight);
+				}
+			}
+		}
+	}
+
+	private void RemoveCurrentHightlight()
+	{
+		for (int i = 0; i < _cellsHighlighted.Count; ++i)
+		{
+			_cellHightlightPool.ReturnHightlight(_cellsHighlighted[i]);
+		}
+
+		_cellsHighlighted.Clear();
 	}
 }

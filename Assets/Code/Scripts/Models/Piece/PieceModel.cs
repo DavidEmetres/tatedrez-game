@@ -27,13 +27,13 @@ public class PieceModel
 
 	public bool IsMovementAllowed(int row, int column)
 	{
-		for (int i = 0; i < _pieceConfig.MovementPattern.Count; i++)
+		IEnumerator<Vector2Int> enumerator = _pieceConfig.MovementPattern.GetEnumerator();
+		while (enumerator.MoveNext())
 		{
-			Vector2Int movement = _pieceConfig.MovementPattern[i];
+			Vector2Int movement = enumerator.Current;
 			Vector2Int actualMovement = new Vector2Int(Row + movement.x, Column + movement.y);
 			if (actualMovement.x == row && actualMovement.y == column)
 			{
-				// movement is part of movement pattern;
 				return true;
 			}
 		}
@@ -41,15 +41,16 @@ public class PieceModel
 		return false;
 	}
 
-	public IEnumerable<Vector2Int> GetPotentialMovements(int row, int column)
+	public IEnumerable<Vector2Int> GetPotentialMovements()
 	{
-		Vector2Int[] possibleMovements = new Vector2Int[_pieceConfig.MovementPattern.Count];
-		for (int i = 0; i < _pieceConfig.MovementPattern.Count; i++)
+		IEnumerator<Vector2Int> enumerator = _pieceConfig.MovementPattern.GetEnumerator();
+		HashSet<Vector2Int> potentialMovements = new HashSet<Vector2Int>();
+		while (enumerator.MoveNext())
 		{
-			Vector2Int movement = _pieceConfig.MovementPattern[i];
-			possibleMovements[i] = new Vector2Int(row + movement.x, column + movement.y);
+			Vector2Int movement = enumerator.Current;
+			potentialMovements.Add(new Vector2Int(Row + movement.x, Column + movement.y));
 		}
 
-		return possibleMovements;
+		return potentialMovements;
 	}
 }

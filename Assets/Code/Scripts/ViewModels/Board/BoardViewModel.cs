@@ -31,12 +31,12 @@ public class BoardViewModel : ViewModel
 		_touchListener.CellTouched -= OnCellTouched;
 	}
 
-	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchStateObserver matchObserver, MatchConfig matchConfig)
+	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchStateObserver matchObserver, MatchConfig matchConfig, CellHighlightPool cellHightlightPool)
 	{
 		_matchObserver = matchObserver;
 		_matchConfig = matchConfig;
 
-		_piecesHandler = new PiecesHandler(boardModifier, boardObserver, _boardBounds, _matchConfig.PieceFactory);
+		_piecesHandler = new PiecesHandler(boardModifier, boardObserver, _boardBounds, _matchConfig.PieceFactory, cellHightlightPool);
 	}
 
 	private void OnCellTouched(int row, int column)

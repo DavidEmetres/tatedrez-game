@@ -6,6 +6,7 @@ public class MatchViewModel : ViewModel
 	[SerializeField]
 	private MatchConfig _matchConfig;
 	[SerializeField]
+	private CellHighlightPool _cellHightlightPool;
 	
 	private MatchModel _matchModel;
 	private BoardModel _boardModel;
@@ -17,6 +18,7 @@ public class MatchViewModel : ViewModel
 		Assert.IsNotNull(_matchConfig, "Match config not referenced!");
 		Assert.IsNotNull(_matchConfig.BoardConfig, "Board config not referenced on MatchConfig!");
 		Assert.IsNotNull(_matchConfig.PieceFactory, "Piece factory not referenced on MatchConfig!");
+		Assert.IsNotNull(_cellHightlightPool, "Cell highlight pool not referenced on MatchConfig!");
 
 		_matchModel = new MatchModel();
 		_boardModel = new BoardModel();
@@ -38,7 +40,7 @@ public class MatchViewModel : ViewModel
 		BoardViewModel boardVM = boardGO.GetComponent<BoardViewModel>();
 		Assert.IsNotNull(boardVM, $"BoardViewModel component not found on {boardGO.name} GameObject!");
 
-		boardVM.Initialize(_boardModel, _boardModel, _matchModel, _matchConfig);
+		boardVM.Initialize(_boardModel, _boardModel, _matchModel, _matchConfig, _cellHightlightPool);
 	}
 
 	private void OnCellOwnershipChanged(int row, int column, Team newTeam)
