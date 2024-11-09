@@ -6,17 +6,13 @@ public class PiecesHandler
 {
 	private class BoardPieceInfo
 	{
-		public PieceViewModel PieceVM;
-		public int Row;
-		public int Column;
-		public Team Team;
+		public PieceModel PieceModel;
+		public GameObject PieceGO;
 
-		public BoardPieceInfo(PieceViewModel pieceVM, int row, int column, Team team)
+		public BoardPieceInfo(PieceModel pieceModel, GameObject pieceGO)
 		{
-			PieceVM = pieceVM;
-			Row = row;
-			Column = column;
-			Team = team;
+			PieceModel = pieceModel;
+			PieceGO = pieceGO;
 		}
 	}
 	
@@ -26,6 +22,7 @@ public class PiecesHandler
 	private PieceFactory _pieceFactory;
 	private IDictionary<Team, IList<BoardPieceInfo>> _piecesInBoard;
 	private BoardPieceInfo _selectedPiece;
+	private IReadOnlyList<Vector2Int> _pieceMovements;
 
 	public PiecesHandler(IBoardModifier boardModifier, IBoardObserver boardObserver, BoxCollider2D boardBounds, PieceFactory pieceFactory)
 	{
@@ -41,10 +38,12 @@ public class PiecesHandler
 		Team cellOwnership = _boardObserver.GetCellOwnership(row, column);
 		if (cellOwnership != Team.None) return;
 		
-		PieceViewModel pieceVM = _pieceFactory.CreatePieceGameObjectOfType(type, team);
-		pieceVM.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
+		PieceModel pieceModel = new PieceModel(team, type, _pieceFactory.GetPieceConfig(type), row, column);
+		
+		GameObject pieceGO = _pieceFactory.CreatePieceGameObjectOfType(pieceModel);
+		pieceGO.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
 
-		BoardPieceInfo boardPiece = new BoardPieceInfo(pieceVM, row, column, team);
+		BoardPieceInfo boardPiece = new BoardPieceInfo(pieceModel, pieceGO);
 		if (_piecesInBoard.TryGetValue(team, out IList<BoardPieceInfo> pieces))
 		{
 			pieces.Add(boardPiece);
@@ -84,25 +83,26 @@ public class PiecesHandler
 	{
 		Assert.IsNotNull(_selectedPiece, "No piece selected!");
 
-		_boardModifier.SetCellOwnership(_selectedPiece.Row, _selectedPiece.Column, Team.None);
+		if (!_selectedPiece.PieceModel.IsMovementAllowed(row, column)) return;
 
-		_selectedPiece.Row = row;
-		_selectedPiece.Column = column;
-		_selectedPiece.PieceVM.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
+		_boardModifier.SetCellOwnership(_selectedPiece.PieceModel.Row, _selectedPiece.PieceModel.Column, Team.None);
 
-		_boardModifier.SetCellOwnership(row, column, _selectedPiece.Team);
+		_selectedPiece.PieceModel.Place(row, column);
+		_selectedPiece.PieceGO.transform.position = BoardUtils.CellToWorldPosition(row, column, _boardBounds.size, _boardBounds.bounds.min);
+
+		_boardModifier.SetCellOwnership(row, column, _selectedPiece.PieceModel.Team);
 
 		_selectedPiece = null;
 	}
 
-	public void SelectPiece(int row, int column, Team team)
+	private void SelectPiece(int row, int column, Team team)
 	{
 		// TODO: Improve piece search;
 		IList<BoardPieceInfo> pieces = _piecesInBoard[team];
 		for (int i = 0; i < pieces.Count; i++)
 		{
 			BoardPieceInfo piece = pieces[i];
-			if (piece.Row == row && piece.Column == column)
+			if (piece.PieceModel.Row == row && piece.PieceModel.Column == column)
 			{
 				_selectedPiece = piece;
 				return;
