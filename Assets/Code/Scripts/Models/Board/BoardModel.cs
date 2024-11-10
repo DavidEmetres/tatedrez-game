@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Assertions;
 
 using CellOwnershipChange = IBoardObserver.CellOwnershipChange;
@@ -78,6 +79,31 @@ public class BoardModel : IBoardModifier, IBoardObserver
 		if (diagonalDownTeam != Team.None) return diagonalDownTeam;
 
 		return Team.None;
+	}
+
+	public bool IsMovementAllowed(int row, int column, PieceModel piece)
+	{
+		bool isOutOfBounds = row < 0 || row >= BoardConfig.Size || column < 0 || column >= BoardConfig.Size;
+		if (isOutOfBounds) return false;
+
+		bool cellNotEmpty = GetCellOwnership(row, column) != Team.None;
+		if (cellNotEmpty) return false;
+
+		bool possibleMovement = piece.IsMovementAllowed(row, column);
+		if (!possibleMovement) return false;
+
+		if (!piece.CanJumpOtherPieces)
+		{
+			int rowDif = Mathf.Abs(piece.Row - row);
+			int columnDif = Mathf.Abs(piece.Column - column);
+			if (rowDif > 1 || columnDif > 1)
+			{
+				Vector2Int middleCell = new Vector2Int(rowDif > 1 ? 1 : row, columnDif > 1 ? 1 : column);
+				if (GetCellOwnership(middleCell.x, middleCell.y) != Team.None) return false;
+			}
+		}
+
+		return true;
 	}
 
 	private Team GetCellTeam(int row, int column)

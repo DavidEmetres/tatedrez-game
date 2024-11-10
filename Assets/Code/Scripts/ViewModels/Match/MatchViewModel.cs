@@ -47,7 +47,7 @@ public class MatchViewModel : ViewModel
 		BoardViewModel boardVM = boardGO.GetComponent<BoardViewModel>();
 		Assert.IsNotNull(boardVM, $"BoardViewModel component not found on {boardGO.name} GameObject!");
 
-		boardVM.Initialize(_boardModel, _boardModel, _matchModel, _matchConfig, _cellHightlightPool);
+		boardVM.Initialize(_boardModel, _boardModel, _matchModel, _matchModel, _matchConfig, _cellHightlightPool);
 	}
 
 	private void OnCellOwnershipChanged(int row, int column, Team newTeam)

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -7,6 +8,7 @@ public class BoardViewModel : ViewModel
 	[SerializeField]
 	private BoxCollider2D _boardBounds;
 	
+	private IMatchAdvancer _matchAdvancer;
 	private IMatchStateObserver _matchObserver;
 	private MatchConfig _matchConfig;
 	private BoardTouchListener _touchListener;
@@ -24,17 +26,27 @@ public class BoardViewModel : ViewModel
 	private void OnEnable()
 	{
 		_touchListener.CellTouched += OnCellTouched;
+		if (_matchObserver != null)
+		{
+			_matchObserver.TurnStarted += OnTurnStarted;
+		}
 	}
 
 	private void OnDisable()
 	{
 		_touchListener.CellTouched -= OnCellTouched;
+		if (_matchObserver != null)
+		{
+			_matchObserver.TurnStarted -= OnTurnStarted;
+		}
 	}
 
-	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchStateObserver matchObserver, MatchConfig matchConfig, CellHighlightPool cellHightlightPool)
+	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchAdvancer matchAdvancer, IMatchStateObserver matchObserver, MatchConfig matchConfig, CellHighlightPool cellHightlightPool)
 	{
+		_matchAdvancer = matchAdvancer;
 		_matchObserver = matchObserver;
 		_matchConfig = matchConfig;
+		_matchObserver.TurnStarted += OnTurnStarted;
 
 		_piecesHandler = new PiecesHandler(boardModifier, boardObserver, _boardBounds, _matchConfig.PieceFactory, cellHightlightPool);
 	}
@@ -50,6 +62,16 @@ public class BoardViewModel : ViewModel
 		else if (_matchObserver.State == MatchState.InProgress)
 		{
 			_piecesHandler.CellSelected(row, column, _matchObserver.PlayingTeam);
+		}
+	}
+
+	private void OnTurnStarted(Team team)
+	{
+		if (_matchObserver.State != MatchState.InProgress) return;
+		
+		if (!_piecesHandler.AnyMovementAvailable(team))
+		{
+			_matchAdvancer.NextTurn();
 		}
 	}
 }
