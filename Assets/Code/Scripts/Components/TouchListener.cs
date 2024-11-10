@@ -30,12 +30,12 @@ public abstract class TouchListener : MonoBehaviour
 
 	private void OnEnable()
 	{
-		_positionAction.performed += OnTouchPressed;
+		_isPressedAction.performed += OnTouchPressed;
 	}
 
 	private void OnDisable()
 	{
-		_positionAction.performed -= OnTouchPressed;
+		_isPressedAction.performed -= OnTouchPressed;
 	}
 
 	protected abstract void OnTouch(Vector3 touchPosition);
