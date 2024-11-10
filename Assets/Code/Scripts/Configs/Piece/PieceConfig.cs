@@ -5,7 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PieceConfig", menuName = "Tatedrez/PieceConfig", order = 0)]
 public class PieceConfig : ScriptableObject
 {
-	public HashSet<Vector2Int> MovementPattern { get; private set; }
+	public HashSet<Vector2Int> MovementPattern
+	{
+		get
+		{
+			if (_movementPattern == null)
+			{
+				_movementPattern = GetMovementPattern();
+			}
+
+			return _movementPattern;
+		}
+	}
 	public bool CanJumpOtherPieces => _canJumpOtherPieces;
 	
 	[SerializeField]
@@ -13,14 +24,14 @@ public class PieceConfig : ScriptableObject
 	[SerializeField, Header("Board representation:\n\n[  ][  ][  ]\n[  ][  ][  ]\n[x][  ][  ]\n\nwhere x => piece position.\n")]
 	private TArray<bool> _possibleMovements = new TArray<bool>(BoardConfig.Size, BoardConfig.Size);
 
+	private HashSet<Vector2Int> _movementPattern;
+
 	private void OnValidate()
 	{
 		if (_possibleMovements.Size.x != BoardConfig.Size || _possibleMovements.Size.y != BoardConfig.Size)
 		{
 			_possibleMovements.Resize(BoardConfig.Size, BoardConfig.Size);
 		}
-
-		MovementPattern = GetMovementPattern();
 	}
 
 	private HashSet<Vector2Int> GetMovementPattern()

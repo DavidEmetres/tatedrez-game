@@ -37,12 +37,17 @@ public class PieceFactory : ScriptableObject
 
 	public PieceConfig GetPieceConfig(PieceType type)
 	{
-		Assert.IsTrue(_pieceEntriesMap.TryGetValue(type, out PieceEntry entry), $"Factory does not contain an entry for type {type}!");
+		if (_pieceEntriesMap.Count == 0)
+		{
+			BuildMap();
+		}
+		
+		Assert.IsTrue(_pieceEntriesMap.ContainsKey(type), $"Factory does not contain an entry for type {type}!");
 
-		return entry.Config;
+		return _pieceEntriesMap[type].Config;
 	}
-	
-	private void OnValidate()
+
+	private void BuildMap()
 	{
 		_pieceEntriesMap.Clear();
 		for (int i = 0; i < _pieceEntries.Length; i++)
@@ -50,5 +55,10 @@ public class PieceFactory : ScriptableObject
 			PieceEntry entry = _pieceEntries[i];
 			_pieceEntriesMap[entry.Type] = entry;
 		}
+	}
+	
+	private void OnValidate()
+	{
+		BuildMap();
 	}
 }
