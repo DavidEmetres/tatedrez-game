@@ -5,9 +5,11 @@ using UnityEngine;
 public class TextMeshProBinding : Binding
 {
 	[SerializeField]
-	private BindingProperty<string> Text;
+	private BindingProperty<string> _text;
 	[SerializeField]
-	private BindingProperty<Color> Color;
+	private BindingProperty<Color> _color;
+	[SerializeField]
+	private BindingProperty<bool> _isVisible;
 	
 	private TextMeshProUGUI TextMeshPro
 	{
@@ -25,7 +27,8 @@ public class TextMeshProBinding : Binding
 	
 	protected override void BindProperties()
 	{
-		Text.Bind((string text) => TextMeshPro.text = text);
-		Color.Bind((Color color) => TextMeshPro.color = color);
+		_text.Bind((string text) => TextMeshPro.text = text);
+		_color.Bind((Color color) => TextMeshPro.color = color);
+		_isVisible.Bind((bool isVisible) => TextMeshPro.enabled = isVisible);
 	}
 }

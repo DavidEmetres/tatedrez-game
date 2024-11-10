@@ -22,7 +22,6 @@ public class PiecesHandler
 	private PieceFactory _pieceFactory;
 	private IDictionary<Team, IList<BoardPieceInfo>> _piecesInBoard;
 	private BoardPieceInfo _selectedPiece;
-	private IReadOnlyList<Vector2Int> _pieceMovements;
 	private CellHighlightPool _cellHightlightPool;
 	private IList<GameObject> _cellsHighlighted = new List<GameObject>();
 
@@ -93,7 +92,7 @@ public class PiecesHandler
 			while (movementsEnumerator.MoveNext())
 			{
 				Vector2Int movement = movementsEnumerator.Current;
-				if (_boardObserver.IsMovementAllowed(movement.x, movement.y, _selectedPiece.PieceModel)) return true;
+				if (_boardObserver.IsMovementAllowed(movement.x, movement.y, piece.PieceModel)) return true;
 			}
 		}
 

@@ -41,6 +41,11 @@ public class BoardViewModel : ViewModel
 		}
 	}
 
+	private void OnDestroy()
+	{
+		
+	}
+
 	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchAdvancer matchAdvancer, IMatchStateObserver matchObserver, MatchConfig matchConfig, CellHighlightPool cellHightlightPool)
 	{
 		_matchAdvancer = matchAdvancer;
@@ -69,7 +74,8 @@ public class BoardViewModel : ViewModel
 	{
 		if (_matchObserver.State != MatchState.InProgress) return;
 		
-		if (!_piecesHandler.AnyMovementAvailable(team))
+		bool movementsAvailable = _piecesHandler.AnyMovementAvailable(team);
+		if (!movementsAvailable)
 		{
 			_matchAdvancer.NextTurn();
 		}

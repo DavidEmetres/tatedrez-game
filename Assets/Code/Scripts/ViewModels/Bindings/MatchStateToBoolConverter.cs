@@ -1,0 +1,1 @@
+public class MatchStateToBoolConveter : EnumToConverter<MatchState,bool> {}

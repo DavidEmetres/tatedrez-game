@@ -4,23 +4,29 @@ using UnityEngine;
 public class MatchModel : IMatchAdvancer, IMatchStateObserver
 {
 	public event Action<Team> TurnStarted;
+	public event Action<MatchState> StateChanged;
 	
 	public MatchState State => _state;
 	public Team PlayingTeam => _playingTeam;
 	public int TurnsPlayed => _totalTurns;
 	
-	private MatchState _state = MatchState.Beginning;
+	private MatchState _state = MatchState.None;
 	private int _totalTurns = 0;
 	private Team _playingTeam = Team.None;
 
+	public void StartPlacement()
+	{
+		SetState(MatchState.Beginning);
+	}
+
 	public void BeginMatch()
 	{
-		_state = MatchState.InProgress;
+		SetState(MatchState.InProgress);
 	}
 
 	public void EndMatch()
 	{
-		_state = MatchState.End;
+		SetState(MatchState.End);
 	}
 
 	public void NextTurn()
@@ -35,5 +41,11 @@ public class MatchModel : IMatchAdvancer, IMatchStateObserver
 		_totalTurns++;
 
 		TurnStarted?.Invoke(_playingTeam);
+	}
+
+	private void SetState(MatchState state)
+	{
+		_state = state;
+		StateChanged?.Invoke(_state);
 	}
 }

@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 public class MatchViewModel : ViewModel
 {
 	public BindableProperty<Team> PlayingTeam;
+	public BindableProperty<MatchState> State;
+	public BindableProperty<PieceType> PlacingPieceType;
 	
 	[SerializeField]
 	private MatchConfig _matchConfig;
@@ -23,6 +27,8 @@ public class MatchViewModel : ViewModel
 		Assert.IsNotNull(_cellHightlightPool, "Cell highlight pool not referenced on MatchConfig!");
 
 		_matchModel = new MatchModel();
+		_matchModel.StateChanged += OnStateChanged;
+		
 		_boardModel = new BoardModel();
 		_boardModel.CellOwnershipChanged += OnCellOwnershipChanged;
 	}
@@ -30,12 +36,14 @@ public class MatchViewModel : ViewModel
 	protected override void CreateBindableProperties()
 	{
 		PlayingTeam = CreateBindableProperty<Team>(nameof(PlayingTeam), Team.None);
+		State = CreateBindableProperty<MatchState>(nameof(State), MatchState.None);
+		PlacingPieceType = CreateBindableProperty<PieceType>(nameof(PlacingPieceType), PieceType.Knight);
 	}
 
 	private void Start()
 	{		
 		InstantiateBoard();
-
+		_matchModel.StartPlacement();
 		NextTurn();
 	}
 
@@ -50,6 +58,11 @@ public class MatchViewModel : ViewModel
 		boardVM.Initialize(_boardModel, _boardModel, _matchModel, _matchModel, _matchConfig, _cellHightlightPool);
 	}
 
+	public void ResetMatch()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+
 	private void OnCellOwnershipChanged(int row, int column, Team newTeam)
 	{
 		if (newTeam == Team.None) return;
@@ -57,7 +70,6 @@ public class MatchViewModel : ViewModel
 		Team winnerTeam = _boardModel.GetWinnerTeam();
 		if (winnerTeam != Team.None)
 		{
-			Debug.Log($"=== TEAM {winnerTeam} WON ===");
 			_matchModel.EndMatch();
 			return;
 		}
@@ -71,6 +83,11 @@ public class MatchViewModel : ViewModel
 			{
 				_matchModel.BeginMatch();
 			}
+			else
+			{
+				int pieceIndex = Mathf.FloorToInt(_matchModel.TurnsPlayed / 2.0f);
+				PlacingPieceType.Value = _matchConfig.InitialPieces[pieceIndex];
+			}
 		}
 		else if (_matchModel.State == MatchState.InProgress)
 		{
@@ -82,5 +99,10 @@ public class MatchViewModel : ViewModel
 	{
 		_matchModel.NextTurn();
 		PlayingTeam.Value = _matchModel.PlayingTeam;
+	}
+
+	private void OnStateChanged(MatchState state)
+	{
+		State.Value = state;
 	}
 }

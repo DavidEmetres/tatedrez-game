@@ -323,6 +323,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &976240103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1790613229325611305, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+  m_PrefabInstance: {fileID: 1448036257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &976240112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976240103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01e74a90edb14c3296a42b18db8d98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enum:
+    _bindedGameObject: {fileID: 1026329877}
+    _bindedViewModelType: MatchViewModel
+    _bindedPropertyName: State
+  _enumOutputMap:
+  - EnumValue: 1
+    OutputValue: 1
+  - EnumValue: 2
+    OutputValue: 1
+--- !u!1 &1026329877 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 903150163982151295, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+  m_PrefabInstance: {fileID: 1448036257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1272760298
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +430,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 273966423785741911, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedGameObject
+      value: 
+      objectReference: {fileID: 1863529653}
+    - target: {fileID: 273966423785741911, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 273966423785741911, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
     - target: {fileID: 903150163982151295, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
       propertyPath: m_Name
       value: Match
@@ -407,6 +450,18 @@ PrefabInstance:
       propertyPath: _cellHightlightPool
       value: 
       objectReference: {fileID: 799068762}
+    - target: {fileID: 1865450905991527313, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedGameObject
+      value: 
+      objectReference: {fileID: 1863529653}
+    - target: {fileID: 1865450905991527313, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865450905991527313, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
     - target: {fileID: 1928876410062353861, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -447,11 +502,222 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1972936407839268538, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedGameObject
+      value: 
+      objectReference: {fileID: 1448036258}
+    - target: {fileID: 1972936407839268538, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 1972936407839268538, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823600321333097615, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedGameObject
+      value: 
+      objectReference: {fileID: 1863529653}
+    - target: {fileID: 4823600321333097615, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823600321333097615, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _text._bindedGameObject
+      value: 
+      objectReference: {fileID: 976240103}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _color._bindedGameObject
+      value: 
+      objectReference: {fileID: 976240103}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _text._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _color._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _text._bindedViewModelType
+      value: TeamToStringConverter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _color._bindedViewModelType
+      value: TeamToColorConverter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedGameObject
+      value: 
+      objectReference: {fileID: 976240103}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 4839613240616534579, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966433734942020423, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedGameObject
+      value: 
+      objectReference: {fileID: 1863529653}
+    - target: {fileID: 4966433734942020423, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966433734942020423, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isActive._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556183274566538289, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedGameObject
+      value: 
+      objectReference: {fileID: 1740057849}
+    - target: {fileID: 5556183274566538289, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedPropertyName
+      value: Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556183274566538289, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _isVisible._bindedViewModelType
+      value: MatchStateToBoolConveter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648518484455747164, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _enumOutputMap.Array.data[0].OutputValue
+      value: WHITE WINS!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5648518484455747164, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      propertyPath: _enumOutputMap.Array.data[1].OutputValue
+      value: BLACK WINS!
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1810132394112493267, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 3255974096268473921, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 6228327058260202242, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 6005292364061252726, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 4823600321333097615, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 1865450905991527313, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 273966423785741911, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+    - {fileID: 4966433734942020423, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1790613229325611305, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 976240112}
+    - targetCorrespondingSourceObject: {fileID: 5542780432678543656, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1740057858}
+    - targetCorrespondingSourceObject: {fileID: 3538355340972809506, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1448036267}
+    - targetCorrespondingSourceObject: {fileID: 6376244646021978947, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1863529660}
+    - targetCorrespondingSourceObject: {fileID: 6376244646021978947, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1863529661}
   m_SourcePrefab: {fileID: 100100000, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+--- !u!1 &1448036258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3538355340972809506, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+  m_PrefabInstance: {fileID: 1448036257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1448036267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448036258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01e74a90edb14c3296a42b18db8d98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enum:
+    _bindedGameObject: {fileID: 1026329877}
+    _bindedViewModelType: MatchViewModel
+    _bindedPropertyName: State
+  _enumOutputMap:
+  - EnumValue: 1
+    OutputValue: 1
+--- !u!1 &1740057849 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5542780432678543656, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+  m_PrefabInstance: {fileID: 1448036257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1740057858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740057849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01e74a90edb14c3296a42b18db8d98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enum:
+    _bindedGameObject: {fileID: 1026329877}
+    _bindedViewModelType: MatchViewModel
+    _bindedPropertyName: State
+  _enumOutputMap:
+  - EnumValue: 3
+    OutputValue: 1
+--- !u!1 &1863529653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6376244646021978947, guid: a099221b51cc94fa4a13ffc722265be7, type: 3}
+  m_PrefabInstance: {fileID: 1448036257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1863529660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863529653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01e74a90edb14c3296a42b18db8d98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enum:
+    _bindedGameObject: {fileID: 1026329877}
+    _bindedViewModelType: MatchViewModel
+    _bindedPropertyName: State
+  _enumOutputMap:
+  - EnumValue: 2
+    OutputValue: 1
+--- !u!114 &1863529661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863529653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e9a88204e5534be6a1048b2db1a27a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprite:
+    _bindedGameObject: {fileID: 0}
+    _bindedViewModelType: 
+    _bindedPropertyName: 
+  _color:
+    _bindedGameObject: {fileID: 0}
+    _bindedViewModelType: 
+    _bindedPropertyName: 
+  _isVisible:
+    _bindedGameObject: {fileID: 1863529653}
+    _bindedViewModelType: MatchStateToBoolConveter
+    _bindedPropertyName: Output
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
