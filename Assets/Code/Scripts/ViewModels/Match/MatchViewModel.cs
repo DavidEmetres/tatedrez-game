@@ -59,8 +59,16 @@ public class MatchViewModel : ViewModel
 		}
 		else if (_matchModel.State == MatchState.InProgress)
 		{
-			//TODO: verify win condition & finish game;
-			_matchModel.NextTurn();
+			Team winnerTeam = _boardModel.GetWinnerTeam();
+			if (winnerTeam != Team.None)
+			{
+				Debug.Log($"=== TEAM {winnerTeam} WON ===");
+				_matchModel.EndMatch();
+			}
+			else
+			{
+				_matchModel.NextTurn();
+			}			
 		}
 	}
 }

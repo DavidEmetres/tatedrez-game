@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Numerics;
 using Extensions;
 using UnityEngine;
 
@@ -9,13 +8,13 @@ public class PieceConfig : ScriptableObject
 	public IEnumerable<Vector2Int> MovementPattern { get; private set; }
 	
 	[SerializeField, Header("Board representation:\n\n[  ][  ][  ]\n[  ][  ][  ]\n[x][  ][  ]\n\nwhere x => piece position.\n")]
-	private TArray<bool> _possibleMovements = new TArray<bool>(BoardConfig.Size);
+	private TArray<bool> _possibleMovements = new TArray<bool>(BoardConfig.Size, BoardConfig.Size);
 
 	private void OnValidate()
 	{
-		if (_possibleMovements.Size.x != BoardConfig.Size.x || _possibleMovements.Size.y != BoardConfig.Size.y)
+		if (_possibleMovements.Size.x != BoardConfig.Size || _possibleMovements.Size.y != BoardConfig.Size)
 		{
-			_possibleMovements.Resize(BoardConfig.Size.x, BoardConfig.Size.y);
+			_possibleMovements.Resize(BoardConfig.Size, BoardConfig.Size);
 		}
 
 		MovementPattern = GetMovementPattern();

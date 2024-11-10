@@ -124,7 +124,7 @@ public class PiecesHandler
 			while (movementsEnumerator.MoveNext())
 			{
 				Vector2Int movement = movementsEnumerator.Current;
-				if (movement.x >= 0 && movement.x < BoardConfig.Size.x && movement.y >= 0 && movement.y < BoardConfig.Size.y)
+				if (movement.x >= 0 && movement.x < BoardConfig.Size && movement.y >= 0 && movement.y < BoardConfig.Size)
 				{
 					GameObject highlight = _cellHightlightPool.GetHighlight();
 					highlight.transform.position = BoardUtils.CellToWorldPosition(movement.x, movement.y, _boardBounds.size, _boardBounds.bounds.min);
