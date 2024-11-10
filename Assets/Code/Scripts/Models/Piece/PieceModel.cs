@@ -1,14 +1,27 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PieceModel
 {
+	public Action<bool> SelectionChanged;
+	
 	public Team Team { get; private set; }
 	public PieceType Type { get; private set; }
 	public int Row { get; private set; }
 	public int Column { get; private set; }
+	public bool IsSelected
+	{
+		get => _isSelected;
+		set
+		{
+			_isSelected = value;
+			SelectionChanged?.Invoke(_isSelected);
+		}
+	}
 
 	private PieceConfig _pieceConfig;
+	private bool _isSelected;
 	
 	public PieceModel(Team team, PieceType type, PieceConfig pieceConfig, int row, int column)
 	{
@@ -17,6 +30,7 @@ public class PieceModel
 		_pieceConfig = pieceConfig;
 		Row = row;
 		Column = column;
+		IsSelected = false;
 	}
 
 	public void Place(int row, int column)

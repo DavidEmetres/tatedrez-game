@@ -53,6 +53,14 @@ public class MatchViewModel : ViewModel
 	private void OnCellOwnershipChanged(int row, int column, Team newTeam)
 	{
 		if (newTeam == Team.None) return;
+
+		Team winnerTeam = _boardModel.GetWinnerTeam();
+		if (winnerTeam != Team.None)
+		{
+			Debug.Log($"=== TEAM {winnerTeam} WON ===");
+			_matchModel.EndMatch();
+			return;
+		}
 		
 		if (_matchModel.State == MatchState.Beginning)
 		{
@@ -66,16 +74,7 @@ public class MatchViewModel : ViewModel
 		}
 		else if (_matchModel.State == MatchState.InProgress)
 		{
-			Team winnerTeam = _boardModel.GetWinnerTeam();
-			if (winnerTeam != Team.None)
-			{
-				Debug.Log($"=== TEAM {winnerTeam} WON ===");
-				_matchModel.EndMatch();
-			}
-			else
-			{
-				NextTurn();
-			}			
+			NextTurn();
 		}
 	}
 

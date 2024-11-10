@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8918368694659870241}
   - component: {fileID: 8242525598422458226}
+  - component: {fileID: 6891168744000445696}
   m_Layer: 0
   m_Name: Piece
   m_TagString: Untagged
@@ -45,6 +46,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 587d47901ce8f469da00a30049f2d864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6891168744000445696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2320513608837754522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcced589c9f5344e4a524988cd80c3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isAnimated:
+    _bindedGameObject: {fileID: 2320513608837754522}
+    _bindedViewModelType: PieceViewModel
+    _bindedPropertyName: IsSelected
+  _minMaxScale: {x: 1, y: 1.3}
+  _floatSpeed: 0.75
 --- !u!1 &6063786929756839293
 GameObject:
   m_ObjectHideFlags: 0

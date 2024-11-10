@@ -95,18 +95,16 @@ public class PiecesHandler
 
 		_boardModifier.SetCellOwnership(row, column, _selectedPiece.PieceModel.Team);
 
-		RemoveCurrentHightlight();
-		_selectedPiece = null;
+		DeselectPiece();
 	}
 
 	private void SelectPiece(int row, int column, Team team)
 	{
 		if (_selectedPiece != null)
 		{
-			RemoveCurrentHightlight();
+			DeselectPiece();
 		}
 		
-		// TODO: Improve piece search;
 		IList<BoardPieceInfo> pieces = _piecesInBoard[team];
 		for (int i = 0; i < pieces.Count; i++)
 		{
@@ -131,6 +129,8 @@ public class PiecesHandler
 					_cellsHighlighted.Add(highlight);
 				}
 			}
+
+			_selectedPiece.PieceModel.IsSelected = true;
 		}
 	}
 
@@ -142,5 +142,14 @@ public class PiecesHandler
 		}
 
 		_cellsHighlighted.Clear();
+	}
+
+	private void DeselectPiece()
+	{
+		Assert.IsNotNull(_selectedPiece, "No piece selected!");
+		
+		RemoveCurrentHightlight();
+		_selectedPiece.PieceModel.IsSelected = false;
+		_selectedPiece = null;
 	}
 }
