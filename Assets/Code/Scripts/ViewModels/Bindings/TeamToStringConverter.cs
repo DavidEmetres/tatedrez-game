@@ -1,0 +1,1 @@
+public class TeamToStringConverter : EnumToConverter<Team,string> {}

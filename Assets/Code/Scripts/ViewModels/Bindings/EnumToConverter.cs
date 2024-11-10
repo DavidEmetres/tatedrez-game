@@ -39,7 +39,7 @@ public class EnumToConverter<T1,T2> : ViewModel where T1 : struct, IComparable, 
 		}
 	}
 
-	private void OnEnable()
+	private void Start()
 	{
 		BindProperties();
 	}

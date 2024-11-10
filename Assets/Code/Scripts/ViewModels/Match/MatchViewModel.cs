@@ -3,6 +3,8 @@ using UnityEngine.Assertions;
 
 public class MatchViewModel : ViewModel
 {
+	public BindableProperty<Team> PlayingTeam;
+	
 	[SerializeField]
 	private MatchConfig _matchConfig;
 	[SerializeField]
@@ -25,11 +27,16 @@ public class MatchViewModel : ViewModel
 		_boardModel.CellOwnershipChanged += OnCellOwnershipChanged;
 	}
 
+	protected override void CreateBindableProperties()
+	{
+		PlayingTeam = CreateBindableProperty<Team>(nameof(PlayingTeam), Team.None);
+	}
+
 	private void Start()
 	{		
 		InstantiateBoard();
 
-		_matchModel.NextTurn();
+		NextTurn();
 	}
 
 	private void InstantiateBoard()
@@ -49,7 +56,7 @@ public class MatchViewModel : ViewModel
 		
 		if (_matchModel.State == MatchState.Beginning)
 		{
-			_matchModel.NextTurn();
+			NextTurn();
 
 			int totalPiecesToBeginGame = _matchConfig.InitialPieces.Count * 2;
 			if (_matchModel.TurnsPlayed == totalPiecesToBeginGame)
@@ -67,8 +74,14 @@ public class MatchViewModel : ViewModel
 			}
 			else
 			{
-				_matchModel.NextTurn();
+				NextTurn();
 			}			
 		}
+	}
+
+	private void NextTurn()
+	{
+		_matchModel.NextTurn();
+		PlayingTeam.Value = _matchModel.PlayingTeam;
 	}
 }

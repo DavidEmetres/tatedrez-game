@@ -8,23 +8,23 @@ public class SpriteRendererBinding : Binding
 	[SerializeField]
 	private BindingProperty<Sprite> Sprite;
 
-	private SpriteRenderer SpriteRend
+	private SpriteRenderer SpriteRenderer
 	{
 		get
 		{
-			if (spriteRend == null)
+			if (_spriteRenderer == null)
 			{
-				spriteRend = GetComponent<SpriteRenderer>();
+				_spriteRenderer = GetComponent<SpriteRenderer>();
 			}
 
-			return spriteRend;
+			return _spriteRenderer;
 		}
 	}
-	private SpriteRenderer spriteRend;
+	private SpriteRenderer _spriteRenderer;
 
 	protected override void BindProperties()
 	{
-		Color.Bind((Color color) => SpriteRend.color = color);
-		Sprite.Bind((Sprite sprite) => SpriteRend.sprite = sprite);
+		Color.Bind((Color color) => SpriteRenderer.color = color);
+		Sprite.Bind((Sprite sprite) => SpriteRenderer.sprite = sprite);
 	}
 }

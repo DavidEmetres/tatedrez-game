@@ -24,7 +24,7 @@ public class MatchModel : IMatchAdvancer, IMatchStateObserver
 	{
 		if (_playingTeam == Team.None)
 		{
-			_playingTeam = (Team)Random.Range(1, 2);
+			_playingTeam = (Team)Random.Range(1, 3);
 			return;
 		}
 
