@@ -86,7 +86,7 @@ public class PiecesHandler
 	{
 		Assert.IsNotNull(_selectedPiece, "No piece selected!");
 
-		if (!_selectedPiece.PieceModel.IsMovementAllowed(row, column)) return;
+		if (!IsMovementAllowed(row, column, _selectedPiece)) return;
 
 		_boardModifier.SetCellOwnership(_selectedPiece.PieceModel.Row, _selectedPiece.PieceModel.Column, Team.None);
 
@@ -122,7 +122,7 @@ public class PiecesHandler
 			while (movementsEnumerator.MoveNext())
 			{
 				Vector2Int movement = movementsEnumerator.Current;
-				if (movement.x >= 0 && movement.x < BoardConfig.Size && movement.y >= 0 && movement.y < BoardConfig.Size)
+				if (IsMovementAllowed(movement.x, movement.y, _selectedPiece))
 				{
 					GameObject highlight = _cellHightlightPool.GetHighlight();
 					highlight.transform.position = BoardUtils.CellToWorldPosition(movement.x, movement.y, _boardBounds.size, _boardBounds.bounds.min);
@@ -132,6 +132,31 @@ public class PiecesHandler
 
 			_selectedPiece.PieceModel.IsSelected = true;
 		}
+	}
+
+	private bool IsMovementAllowed(int row, int column, BoardPieceInfo piece)
+	{
+		bool isOutOfBounds = row < 0 || row >= BoardConfig.Size || column < 0 || column >= BoardConfig.Size;
+		if (isOutOfBounds) return false;
+
+		bool cellNotEmpty = _boardObserver.GetCellOwnership(row, column) != Team.None;
+		if (cellNotEmpty) return false;
+
+		bool possibleMovement = piece.PieceModel.IsMovementAllowed(row, column);
+		if (!possibleMovement) return false;
+
+		if (!piece.PieceModel.CanJumpOtherPieces)
+		{
+			int rowDif = Mathf.Abs(piece.PieceModel.Row - row);
+			int columnDif = Mathf.Abs(piece.PieceModel.Column - column);
+			if (rowDif > 1 || columnDif > 1)
+			{
+				Vector2Int middleCell = new Vector2Int(rowDif > 1 ? 1 : row, columnDif > 1 ? 1 : column);
+				if (_boardObserver.GetCellOwnership(middleCell.x, middleCell.y) != Team.None) return false;
+			}
+		}
+
+		return true;
 	}
 
 	private void RemoveCurrentHightlight()

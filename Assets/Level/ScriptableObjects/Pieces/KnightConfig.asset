@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f484f8242074b1f927d56fedb687e4, type: 3}
   m_Name: KnightConfig
   m_EditorClassIdentifier: 
+  _canJumpOtherPieces: 1
   _possibleMovements:
     size: {x: 3, y: 3}
     data: 000100000001000000

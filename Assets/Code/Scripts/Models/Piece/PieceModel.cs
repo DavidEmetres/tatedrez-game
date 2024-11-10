@@ -19,6 +19,7 @@ public class PieceModel
 			SelectionChanged?.Invoke(_isSelected);
 		}
 	}
+	public bool CanJumpOtherPieces => _pieceConfig.CanJumpOtherPieces;
 
 	private PieceConfig _pieceConfig;
 	private bool _isSelected;
@@ -41,18 +42,8 @@ public class PieceModel
 
 	public bool IsMovementAllowed(int row, int column)
 	{
-		IEnumerator<Vector2Int> enumerator = _pieceConfig.MovementPattern.GetEnumerator();
-		while (enumerator.MoveNext())
-		{
-			Vector2Int movement = enumerator.Current;
-			Vector2Int actualMovement = new Vector2Int(Row + movement.x, Column + movement.y);
-			if (actualMovement.x == row && actualMovement.y == column)
-			{
-				return true;
-			}
-		}
-
-		return false;
+		Vector2Int normalizedCoordinates = new Vector2Int(row - Row, column - Column);
+		return _pieceConfig.MovementPattern.Contains(normalizedCoordinates);
 	}
 
 	public IEnumerable<Vector2Int> GetPotentialMovements()
