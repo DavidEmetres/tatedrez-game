@@ -28,7 +28,7 @@ public class BoardModel : IBoardModifier, IBoardObserver
 		if (cellTeam != newTeam)
 		{
 			_cellsOwnership[row][column] = newTeam;
-			CellOwnershipChanged.Invoke(row, column, newTeam);
+			CellOwnershipChanged?.Invoke(row, column, newTeam);
 		}
 	}
 

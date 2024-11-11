@@ -21,6 +21,6 @@ public class BoardTouchListener : TouchListener
 	{
 		Vector2Int coordinates = BoardUtils.WorldPositionToCell(touchPosition, _boardBounds.size, _boardBounds.bounds.min);
 
-		CellTouched.Invoke(coordinates.x, coordinates.y);
+		CellTouched?.Invoke(coordinates.x, coordinates.y);
 	}
 }

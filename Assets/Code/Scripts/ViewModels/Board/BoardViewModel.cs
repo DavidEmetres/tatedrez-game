@@ -41,11 +41,6 @@ public class BoardViewModel : ViewModel
 		}
 	}
 
-	private void OnDestroy()
-	{
-		
-	}
-
 	public void Initialize(IBoardModifier boardModifier, IBoardObserver boardObserver, IMatchAdvancer matchAdvancer, IMatchStateObserver matchObserver, MatchConfig matchConfig, CellHighlightPool cellHightlightPool)
 	{
 		_matchAdvancer = matchAdvancer;
