@@ -3,24 +3,30 @@
 It's a layer-based architecture, with three main layers.
 
 The **data layer**, containing Models (runtime data) & Configs (static data configurable in Editor).
-This layer holds the game data and modifies it. 
+This layer holds the game data and the logic to modify it.
 
 The **control layer**, containing ViewModels (glue between the data & view layers) and any other logic components.
 This layer serves as a bridge between the data & view layers, taking the responsibility of modifying the data layer when events are received from the view layer (such as input).
 
 The **view layer**, containing any Unity components exposed in the Scene. This layer receives the input, and using Bindings/Bindables notifies the control layer (view models).
 
-<img width="611" height="688" alt="architecture diagram" src="Documentation/tatedrez-architecture.png">
+<img width="611" alt="architecture diagram" src="Documentation/tatedrez-architecture.png">
 
 # Architecture purpose
 
-This is a powerful architecture that keeps completely decoupled the data from the view layer, allowing you to hold a complete state of the game in the data layer, really useful for unit testing (which only need to inject custom models) or serialization (saving the game state). The game structure becomes really simple with this architecture, since extending any of the layers can be done in parallel without making different teams dependant on each other's work. Also, this architecture greatly benefits from the SOLID principles, since having single responsibility and segreagated interfaces allows you to inject models into the control layer in a safe way, always keeping the responsibilities of each class clearly defined.
+This is a powerful architecture that keeps completely decoupled the data from the view layer, allowing you to hold a complete state of the game in the data layer, really useful for unit testing (which only need to inject custom models) or serialization (saving the game state). 
+
+The game structure becomes really simple with this architecture, since extending any of the layers can be done in parallel without making different teams dependant on each other's work. 
+This architecture greatly benefits from the SOLID principles, since having single responsibility and segreagated interfaces allows you to inject models into the control layer in a safe way, always keeping the responsibilities of each class clearly defined.
 
 # The power of MVVM
 
-I chose the MVVM (Model-View-ViewModel) pattern because of how powerful it behaves when used with a layered architecture with decoupled responsibilities. The MVVM framework I created allows the view to bind its properties to the exposed BindableProperties of the ViewModels, acting in a reactive way to changes in the data layer. This is a great pattern that empowers the technical and UI artists, making everyone life easier since UI iteration and extension becomes a work completely developed on Editor with minimal code support required.
+I chose the MVVM (Model-View-ViewModel) pattern because of how powerful it behaves when used with a layered architecture with decoupled responsibilities. 
 
-<img width="144" alt="inspector" src="Documentation/viewmodel-inspector.png">
+The MVVM framework created allows the view to bind its properties to the exposed BindableProperties of the ViewModels, acting in a reactive way to changes in the data layer. 
+This is a great pattern that empowers the technical and UI artists, making everyone life easier since UI iteration and extension becomes a work completely developed on Editor with minimal code support required.
+
+<img width="1440" alt="inspector" src="Documentation/viewmodel-inspector.png">
 
 # Implementation details
 
