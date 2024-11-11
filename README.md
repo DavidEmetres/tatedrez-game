@@ -1,89 +1,34 @@
-Please confirm receipt of this case study with your estimated time of delivery 👍
+# Game architecture
 
-# Tatedrez-game
+It's a layer-based architecture, with three main layers.
 
-Create a Tatedrez game using good coding practices, taking into account the maintainability, scalability and readability of the code.
-You should use the best practices available to you to ensure the best and easiest reusability of the code.
+The **data layer**, containing Models (runtime data) & Configs (static data configurable in Editor).
+This layer holds the game data and modifies it. 
 
-Explain, in a separate text document, your implementation choices for the different systems or modules implemented.
-The juiciness and attractiveness of the gameplay and UI will also be evaluated. [Evaluation criteria section link](#what-we-will-be-evaluated)
+The **control layer**, containing ViewModels (glue between the data & view layers) and any other logic components.
+This layer serves as a bridge between the data & view layers, taking the responsibility of modifying the data layer when events are received from the view layer (such as input).
 
----
+The **view layer**, containing any Unity components exposed in the Scene. This layer receives the input, and using Bindings/Bindables notifies the control layer (view models).
 
-# GAME DESCRIPTION AND RULES:
-Here's a step-by-step description of how a game of Tatedrez would unfold:  
+<img width="611" height="688" alt="architecture diagram" src="Documentation/tatedrez-architecture.png">
 
-* **Pieces:**
-    The game has only 3 pieces. Knight, Bishop and Rook:
-    * Knight (Horse): The knight moves in an L-shape: two squares in one direction (either horizontally or vertically), followed by one square perpendicular to the previous direction. Knights can jump over other pieces on the board, making their movement unique. Knights can move to any square on the board that follows this L-shaped pattern, regardless of the color of the squares.
-    * Rook: The rook moves in straight lines either horizontally or vertically. It can move any number of squares in the chosen direction, as long as there are no pieces blocking its path.
-    * Bishop: The bishop moves diagonally on the board. It can move any number of squares diagonally in a single move, as long as there are no pieces obstructing its path.
+# Architecture purpose
 
-* **Board Setup:**
-    An empty board is placed, consisting of a 3x3 grid, similar to a Tic Tac Toe game.
+This is a powerful architecture that keeps completely decoupled the data from the view layer, allowing you to hold a complete state of the game in the data layer, really useful for unit testing (which only need to inject custom models) or serialization (saving the game state). The game structure becomes really simple with this architecture, since extending any of the layers can be done in parallel without making different teams dependant on each other's work. Also, this architecture greatly benefits from the SOLID principles, since having single responsibility and segreagated interfaces allows you to inject models into the control layer in a safe way, always keeping the responsibilities of each class clearly defined.
 
-  <img width="320" alt="image" src="illustrations/board.png">
+# The power of MVVM
 
-* **Piece Placement:**
-    Choose a random player to start.  
-    Player 1 places one of their pieces in an empty square on the board.  
-    Player 2 places one of their pieces in another empty square on the board.  
-    They continue alternating until both players have placed their three pieces on the board.
+I chose the MVVM (Model-View-ViewModel) pattern because of how powerful it behaves when used with a layered architecture with decoupled responsibilities. The MVVM framework I created allows the view to bind its properties to the exposed BindableProperties of the ViewModels, acting in a reactive way to changes in the data layer. This is a great pattern that empowers the technical and UI artists, making everyone life easier since UI iteration and extension becomes a work completely developed on Editor with minimal code support required.
 
-  <img width="321" alt="image" src="illustrations/board-with-pieces.png">
-  
+<img width="144" alt="inspector" src="Documentation/viewmodel-inspector.png">
 
-* **Checking for TicTacToe:**
-    After all players have placed their three pieces on the board, it's checked whether anyone has managed to create a line of three pieces in a row, column, or diagonal – a TicTacToe.
+# Implementation details
 
-* **Dynamic Mode:**
-    If neither player has achieved a TicTacToe with the placed pieces, the game enters the dynamic mode of Tateddrez.
-    If X player can't move, the other player move twice.
-    In this mode, players take turns to move one of their pieces following chess rules.
-    **Capturing opponent's pieces is not allowed.**
+The game counts with three main entities:
 
-* **Seeking TicTacToe:**
-    In dynamic mode, players strategically move their pieces to form a TicTacToe.  
-    They continue moving their pieces in turns until one of them achieves a TicTacToe with their three pieces.
+The **Match**, holding the board and keeping track of the match state & winning condition.
 
-  <img width="321" alt="image" src="illustrations/board-with-pieces-1.png">
+The **Board**, holding the state of each cell and the pieces. Is the one having the big picture of the cells, therefore the one in charge of verifying the validity of the movements.
+It performs all the piece related logic helped by the **PiecesHandler** logic component.
 
-
-* **Game Conclusion:**
-    The game of Tateddrez concludes when one of the players manages to achieve a TicTacToe with their three pieces, either during the initial placement phase or during dynamic mode.  
-    The player who achieves the TicTacToe is declared the winner.
-
-  <img width="317" alt="image" src="illustrations/board-with-pieces-2.png">
-
-
----
-# Tech requirements
-* Use Unity 2022.3.21
-* Please use only free assets. No paid assets or plugins should be used.
-* Any external module/plugin/library/resource should be in the project. Please don't use github URLs to intstall UPM packages.  
----
-# Delivery
-* Fork this repository or clone this repository and create a new one with your github account. Share the new repository with the users "shanickcuello", "juanblasco" and "kk-homa" or make it public.
-* Build Android .apk and upload it to the repository.  
----
-# What we will be evaluated?  
-* Additional documentation    
-* Project folder structure  
-* General code architecture  
-* Scalability  
-* Single responsibility principle
-* Open-closed principle 
-* KISS principle  
-* Clean code principles  
-* Use of interfaces and/or abstract classes  
-* Use of the design patterns    
-* Game & Feel  
-* Visuals  
-* Use of scriptable objects  
-* Use of the version control system  
-* Presence of Unit Tests  
----
-### Disclaimer
-The company reserves the right not to provide feedback on the outcome of your case study.  
-
-Good luck!
+The **Piece**s, mainly responsibles of their movement pattern.
